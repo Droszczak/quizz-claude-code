@@ -10,6 +10,7 @@ const OFFICIAL_HOSTS = [
   'https://docs.claude.com',
   'https://www.anthropic.com',
   'https://docs.anthropic.com',
+  'https://modelcontextprotocol.io',
 ];
 
 describe('questions schema', () => {

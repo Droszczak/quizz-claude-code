@@ -20,6 +20,66 @@
     "docTitle": "Claude Code — Overview"
   },
   {
+    "id": "ini-fund-003",
+    "level": "iniciante",
+    "category": "fundamentos",
+    "statement": "Claude Code pode ler arquivos do seu projeto local e propor edições diretamente nos arquivos.",
+    "answer": true,
+    "explanation": "Claude Code lê e edita arquivos no diretório de trabalho via tools como Read, Edit e Write. Edições passam por confirmação ou aprovação automática (auto-accept), dependendo do modo configurado.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/overview",
+    "docTitle": "Claude Code — Overview"
+  },
+  {
+    "id": "ini-fund-004",
+    "level": "iniciante",
+    "category": "fundamentos",
+    "statement": "É possível usar o Claude Code apenas com uma assinatura Claude Pro ou Max, sem precisar gerenciar uma API key.",
+    "answer": true,
+    "explanation": "Usuários com assinatura Claude.ai (Pro ou Max) podem autenticar o Claude Code via login interativo, sem precisar criar ou gerenciar uma API key. A autenticação por API key é alternativa para uso pago via Anthropic API.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/setup",
+    "docTitle": "Claude Code — Setup"
+  },
+  {
+    "id": "ini-fund-005",
+    "level": "iniciante",
+    "category": "fundamentos",
+    "statement": "Claude Code só funciona em macOS — não há suporte para Linux ou Windows.",
+    "answer": false,
+    "explanation": "Claude Code suporta macOS, Linux e Windows. Em Windows, recomenda-se WSL para melhor compatibilidade, mas há também suporte nativo via Windows. Instalação pode ser feita via npm em qualquer um desses sistemas.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/setup",
+    "docTitle": "Claude Code — Setup"
+  },
+  {
+    "id": "ini-fund-006",
+    "level": "iniciante",
+    "category": "fundamentos",
+    "statement": "Um arquivo CLAUDE.md na raiz do projeto fornece instruções persistentes para o Claude Code em todas as sessões naquele diretório.",
+    "answer": true,
+    "explanation": "CLAUDE.md é lido automaticamente pelo Claude Code ao iniciar uma sessão no diretório. Serve para documentar comandos comuns, padrões do projeto e convenções — substitui repetir instruções a cada conversa.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/memory",
+    "docTitle": "Claude Code — Memory"
+  },
+  {
+    "id": "ini-fund-007",
+    "level": "iniciante",
+    "category": "fundamentos",
+    "statement": "Claude Code é open-source e seu código pode ser modificado livremente sob licença MIT.",
+    "answer": false,
+    "explanation": "Claude Code é um produto proprietário da Anthropic. Embora algumas SDKs auxiliares sejam abertas, a CLI principal não é open-source. O uso é regido pelos termos da Anthropic.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/overview",
+    "docTitle": "Claude Code — Overview"
+  },
+  {
+    "id": "ini-fund-008",
+    "level": "iniciante",
+    "category": "fundamentos",
+    "statement": "Os modelos Opus, Sonnet e Haiku diferem em capacidade, velocidade e custo, com Opus sendo o mais capaz e Haiku o mais rápido/econômico.",
+    "answer": true,
+    "explanation": "Opus é o modelo mais capaz (raciocínio complexo, código avançado). Sonnet é equilíbrio entre capacidade e velocidade. Haiku é o mais rápido e barato. O modelo ativo no Claude Code pode ser trocado via /model.",
+    "docUrl": "https://docs.claude.com/en/docs/about-claude/models/overview",
+    "docTitle": "Claude — Models Overview"
+  },
+  {
     "id": "ini-uso-001",
     "level": "iniciante",
     "category": "uso_basico",
@@ -28,6 +88,56 @@
     "explanation": "A instalação padrão é via npm globalmente. Também há instaladores nativos para macOS (Homebrew) e Windows. Após instalado, basta executar 'claude' no terminal dentro do diretório do projeto.",
     "docUrl": "https://docs.claude.com/en/docs/claude-code/setup",
     "docTitle": "Claude Code — Setup"
+  },
+  {
+    "id": "ini-uso-002",
+    "level": "iniciante",
+    "category": "uso_basico",
+    "statement": "Para iniciar o Claude Code em um projeto, basta executar o comando 'claude' no terminal dentro do diretório raiz do projeto.",
+    "answer": true,
+    "explanation": "Rodar 'claude' inicia uma sessão interativa que usa o diretório atual como working directory. Comandos como '/help' listam slash commands; '/exit' encerra a sessão.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/quickstart",
+    "docTitle": "Claude Code — Quickstart"
+  },
+  {
+    "id": "ini-uso-003",
+    "level": "iniciante",
+    "category": "uso_basico",
+    "statement": "Claude Code executa comandos shell apenas quando o usuário autoriza ou quando o comando está em uma allowlist de permissões.",
+    "answer": true,
+    "explanation": "Por segurança, Claude Code pede confirmação antes de executar comandos shell. Permissões podem ser pré-aprovadas em settings.json (allowlist) ou aprovadas em runtime. Modo plan apenas sugere, sem executar.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/iam",
+    "docTitle": "Claude Code — Identity and Access"
+  },
+  {
+    "id": "ini-uso-004",
+    "level": "iniciante",
+    "category": "uso_basico",
+    "statement": "Após instalar o Claude Code, o usuário precisa rodar 'claude login' para fazer autenticação na primeira execução.",
+    "answer": false,
+    "explanation": "Não há comando 'claude login' separado. A autenticação ocorre no primeiro 'claude': abre o navegador para login com Claude.ai ou pede ANTHROPIC_API_KEY. Sessões subsequentes reutilizam as credenciais salvas.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/setup",
+    "docTitle": "Claude Code — Setup"
+  },
+  {
+    "id": "ini-uso-005",
+    "level": "iniciante",
+    "category": "uso_basico",
+    "statement": "Claude Code consegue rodar testes do projeto e iterar sobre falhas até que passem, sem intervenção do usuário a cada etapa.",
+    "answer": true,
+    "explanation": "Claude Code pode invocar tools de Bash para rodar npm test/pytest/etc, ler a saída, identificar falhas e propor correções. Em modo auto-accept, edições e re-execuções ocorrem em loop até o resultado desejado.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/common-workflows",
+    "docTitle": "Claude Code — Common Workflows"
+  },
+  {
+    "id": "ini-uso-006",
+    "level": "iniciante",
+    "category": "uso_basico",
+    "statement": "Não é possível fornecer imagens ou screenshots como entrada para o Claude Code.",
+    "answer": false,
+    "explanation": "Claude Code aceita imagens via colagem (Ctrl+V de um screenshot) ou caminho de arquivo (@caminho.png). Útil para descrever erros visuais, mockups de UI ou diagramas. O modelo lê e interpreta o conteúdo da imagem.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/common-workflows",
+    "docTitle": "Claude Code — Common Workflows"
   },
   {
     "id": "ini-slsh-001",
@@ -40,12 +150,52 @@
     "docTitle": "Claude Code — Slash Commands"
   },
   {
+    "id": "ini-slsh-002",
+    "level": "iniciante",
+    "category": "slash_basico",
+    "statement": "O comando /model permite trocar o modelo Claude em uso (Opus, Sonnet, Haiku) durante a sessão.",
+    "answer": true,
+    "explanation": "/model abre seletor de modelo dentro da sessão. Mudar para Haiku reduz custo/latência; mudar para Opus traz mais capacidade. A mudança vale para mensagens subsequentes da mesma sessão.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/slash-commands",
+    "docTitle": "Claude Code — Slash Commands"
+  },
+  {
+    "id": "ini-slsh-003",
+    "level": "iniciante",
+    "category": "slash_basico",
+    "statement": "O comando /config é usado para reinstalar o Claude Code do zero.",
+    "answer": false,
+    "explanation": "/config abre uma interface para visualizar e alterar configurações da sessão (tema, modelo padrão, atalhos). Reinstalação seria via gerenciador de pacotes ('npm install -g @anthropic-ai/claude-code' novamente).",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/slash-commands",
+    "docTitle": "Claude Code — Slash Commands"
+  },
+  {
+    "id": "ini-slsh-004",
+    "level": "iniciante",
+    "category": "slash_basico",
+    "statement": "/help exibe a lista de slash commands disponíveis junto com uma breve descrição de cada um.",
+    "answer": true,
+    "explanation": "/help mostra todos os comandos slash registrados (built-in e customizados em .claude/commands/). Útil para descobrir capacidades sem sair do terminal. Cada entrada vem com 1 linha de descrição.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/slash-commands",
+    "docTitle": "Claude Code — Slash Commands"
+  },
+  {
     "id": "ini-intf-001",
     "level": "iniciante",
     "category": "interface",
     "statement": "O modo Plan no Claude Code aplica alterações em arquivos sem pedir confirmação ao usuário.",
     "answer": false,
     "explanation": "O modo Plan faz o oposto: o agente apresenta um plano de execução para aprovação do usuário antes de qualquer mudança. O modo que aceita alterações automaticamente é o auto-accept (Shift+Tab alterna entre os modos).",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/overview",
+    "docTitle": "Claude Code — Overview"
+  },
+  {
+    "id": "ini-intf-002",
+    "level": "iniciante",
+    "category": "interface",
+    "statement": "Shift+Tab é o atalho que alterna entre os modos de permissão (plan, default, auto-accept).",
+    "answer": true,
+    "explanation": "Shift+Tab cicla entre modos: 'default' (pede confirmação), 'auto-accept' (executa sem perguntar) e 'plan' (apenas planeja, sem executar). O modo ativo aparece no rodapé do terminal.",
     "docUrl": "https://docs.claude.com/en/docs/claude-code/overview",
     "docTitle": "Claude Code — Overview"
   },
@@ -70,12 +220,92 @@
     "docTitle": "Claude Code — Settings"
   },
   {
+    "id": "int-conf-003",
+    "level": "intermediario",
+    "category": "configuracao",
+    "statement": "A chave 'permissions.allow' em settings.json define uma lista de comandos/tools pré-aprovados, evitando o prompt de confirmação a cada uso.",
+    "answer": true,
+    "explanation": "permissions.allow lista padrões como 'Bash(npm test:*)' ou 'Read', pré-autorizando essas chamadas. Reduz fricção em sessões repetitivas. Existe também permissions.deny para bloquear ações específicas.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/iam",
+    "docTitle": "Claude Code — Identity and Access"
+  },
+  {
+    "id": "int-conf-004",
+    "level": "intermediario",
+    "category": "configuracao",
+    "statement": "Configurações de usuário em ~/.claude/settings.json sobrescrevem configurações de projeto em .claude/settings.json.",
+    "answer": false,
+    "explanation": "A precedência é inversa: configurações mais específicas (projeto local, depois projeto, depois usuário) sobrescrevem as mais gerais. settings.local.json > settings.json (projeto) > ~/.claude/settings.json (usuário).",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/settings",
+    "docTitle": "Claude Code — Settings"
+  },
+  {
+    "id": "int-conf-005",
+    "level": "intermediario",
+    "category": "configuracao",
+    "statement": "Claude Code suporta provedores alternativos como Amazon Bedrock e Google Vertex AI via variáveis de ambiente.",
+    "answer": true,
+    "explanation": "Definindo CLAUDE_CODE_USE_BEDROCK=1 ou CLAUDE_CODE_USE_VERTEX=1 (com credenciais AWS/GCP configuradas), o Claude Code roteia chamadas via Bedrock ou Vertex AI em vez da API Anthropic direta — útil para empresas com contratos nessas plataformas.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/settings",
+    "docTitle": "Claude Code — Settings"
+  },
+  {
+    "id": "int-conf-006",
+    "level": "intermediario",
+    "category": "configuracao",
+    "statement": "Para passar uma API key via variável de ambiente, deve-se usar CLAUDE_API_TOKEN.",
+    "answer": false,
+    "explanation": "A variável correta é ANTHROPIC_API_KEY. Outras úteis: ANTHROPIC_MODEL para fixar o modelo, ANTHROPIC_BASE_URL para gateways customizados, e CLAUDE_CODE_USE_BEDROCK/VERTEX para alternar provedores.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/settings",
+    "docTitle": "Claude Code — Settings"
+  },
+  {
     "id": "int-skil-001",
     "level": "intermediario",
     "category": "skills",
     "statement": "Skills customizadas são definidas em arquivos SKILL.md dentro do diretório .claude/skills/<nome>/.",
     "answer": true,
     "explanation": "Cada skill vive em .claude/skills/<nome>/SKILL.md com frontmatter YAML contendo name, description e gatilhos. O Claude lê a descrição automaticamente e ativa a skill quando o contexto da conversa for relevante.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/skills",
+    "docTitle": "Claude Code — Skills"
+  },
+  {
+    "id": "int-skil-002",
+    "level": "intermediario",
+    "category": "skills",
+    "statement": "Skills só podem ser ativadas se o usuário digitar manualmente /skill <nome> no terminal.",
+    "answer": false,
+    "explanation": "Skills são ativadas automaticamente quando o Claude detecta que sua descrição se aplica ao contexto. Não há slash command obrigatório para invocá-las — a descrição no frontmatter é o critério de seleção.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/skills",
+    "docTitle": "Claude Code — Skills"
+  },
+  {
+    "id": "int-skil-003",
+    "level": "intermediario",
+    "category": "skills",
+    "statement": "Uma skill pode incluir scripts, templates e outros arquivos auxiliares em seu diretório, não apenas o SKILL.md.",
+    "answer": true,
+    "explanation": "O diretório .claude/skills/<nome>/ pode conter scripts (bash, Python), templates, exemplos e referências adicionais usadas pelo Claude quando a skill é ativada. O SKILL.md é o ponto de entrada e descreve quando/como usar esses recursos.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/skills",
+    "docTitle": "Claude Code — Skills"
+  },
+  {
+    "id": "int-skil-004",
+    "level": "intermediario",
+    "category": "skills",
+    "statement": "Skills só podem ser definidas no escopo do projeto, não havendo suporte para skills compartilhadas globalmente pelo usuário.",
+    "answer": false,
+    "explanation": "Skills podem viver em ~/.claude/skills/ (escopo do usuário, disponíveis em qualquer projeto) ou em .claude/skills/ (escopo do projeto, versionadas no Git). Plugins/marketplaces também podem distribuir skills.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/skills",
+    "docTitle": "Claude Code — Skills"
+  },
+  {
+    "id": "int-skil-005",
+    "level": "intermediario",
+    "category": "skills",
+    "statement": "O campo 'description' do frontmatter de uma skill é decisivo para o Claude decidir quando invocá-la.",
+    "answer": true,
+    "explanation": "O Claude lê apenas o frontmatter (name + description) por padrão e decide invocar a skill com base na descrição. Por isso, descrições devem ser específicas e mencionar gatilhos claros (ex: 'use quando o usuário pedir review de PR').",
     "docUrl": "https://docs.claude.com/en/docs/claude-code/skills",
     "docTitle": "Claude Code — Skills"
   },
@@ -90,12 +320,82 @@
     "docTitle": "Claude Code — Slash Commands"
   },
   {
+    "id": "int-slch-002",
+    "level": "intermediario",
+    "category": "slash_custom",
+    "statement": "Slash commands customizados podem aceitar argumentos posicionais usando $ARGUMENTS no template.",
+    "answer": true,
+    "explanation": "Ao executar '/deploy production', a string 'production' substitui $ARGUMENTS no Markdown do comando. Permite criar comandos parametrizáveis sem código — apenas template + interpolação.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/slash-commands",
+    "docTitle": "Claude Code — Slash Commands"
+  },
+  {
+    "id": "int-slch-003",
+    "level": "intermediario",
+    "category": "slash_custom",
+    "statement": "Subdiretórios dentro de .claude/commands/ criam namespacing nos slash commands customizados.",
+    "answer": true,
+    "explanation": "Um arquivo em .claude/commands/git/release.md vira o comando '/git:release' (ou similar, com namespacing por subdir). Útil para organizar muitos comandos por área (git, deploy, testes, etc).",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/slash-commands",
+    "docTitle": "Claude Code — Slash Commands"
+  },
+  {
+    "id": "int-slch-004",
+    "level": "intermediario",
+    "category": "slash_custom",
+    "statement": "Para criar um slash command customizado é obrigatório escrever código TypeScript no diretório .claude/commands/.",
+    "answer": false,
+    "explanation": "Slash commands customizados são apenas arquivos Markdown — sem código necessário. O conteúdo Markdown vira o prompt do Claude. Para lógica complexa, use hooks (scripts executados em eventos) ou MCP servers.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/slash-commands",
+    "docTitle": "Claude Code — Slash Commands"
+  },
+  {
     "id": "int-sbgt-001",
     "level": "intermediario",
     "category": "subagents",
     "statement": "O subagente 'Explore' é a melhor escolha para revisão completa de código ou auditoria cross-file de design docs.",
     "answer": false,
     "explanation": "Explore é otimizado para buscas rápidas (find, grep, localizar definições) e lê apenas trechos. Para revisão de código ou auditoria cross-file, use code-reviewer ou general-purpose, que leem arquivos inteiros e fazem análise mais profunda.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/sub-agents",
+    "docTitle": "Claude Code — Sub-agents"
+  },
+  {
+    "id": "int-sbgt-002",
+    "level": "intermediario",
+    "category": "subagents",
+    "statement": "Subagentes podem ser executados em paralelo para acelerar tarefas independentes.",
+    "answer": true,
+    "explanation": "Ao chamar a Task tool múltiplas vezes em paralelo (uma mensagem com várias invocações), os subagentes rodam concorrentemente. Útil quando há várias áreas distintas para explorar ou tarefas sem dependência entre si.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/sub-agents",
+    "docTitle": "Claude Code — Sub-agents"
+  },
+  {
+    "id": "int-sbgt-003",
+    "level": "intermediario",
+    "category": "subagents",
+    "statement": "Subagentes customizados podem ser definidos com YAML frontmatter em arquivos dentro de .claude/agents/.",
+    "answer": true,
+    "explanation": "Subagentes customizados vivem em .claude/agents/<nome>.md, com frontmatter especificando name, description, tools permitidas e o modelo. O agente principal pode delegar tarefas a estes subagentes via Task tool.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/sub-agents",
+    "docTitle": "Claude Code — Sub-agents"
+  },
+  {
+    "id": "int-sbgt-004",
+    "level": "intermediario",
+    "category": "subagents",
+    "statement": "Subagentes compartilham o mesmo contexto de conversa que o agente principal.",
+    "answer": false,
+    "explanation": "Cada subagente tem contexto isolado: recebe apenas o prompt e devolve um resultado final. Isso protege o contexto do agente principal de output extenso (logs de busca, leituras de muitos arquivos) e permite trabalhos em paralelo.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/sub-agents",
+    "docTitle": "Claude Code — Sub-agents"
+  },
+  {
+    "id": "int-sbgt-005",
+    "level": "intermediario",
+    "category": "subagents",
+    "statement": "É possível restringir quais tools um subagente customizado pode usar através do frontmatter do arquivo .claude/agents/<nome>.md.",
+    "answer": true,
+    "explanation": "O frontmatter aceita uma chave 'tools' listando os nomes de tools permitidas (ex: 'Read, Grep, Bash'). Útil para criar subagentes especializados e seguros, como um revisor que não pode editar arquivos.",
     "docUrl": "https://docs.claude.com/en/docs/claude-code/sub-agents",
     "docTitle": "Claude Code — Sub-agents"
   },
@@ -120,12 +420,82 @@
     "docTitle": "Claude Code — Hooks"
   },
   {
+    "id": "adv-hook-003",
+    "level": "avancado",
+    "category": "hooks",
+    "statement": "Hooks recebem informação sobre o evento (tool name, parâmetros, contexto) via payload JSON no stdin.",
+    "answer": true,
+    "explanation": "O hook recebe um JSON via stdin com campos como tool_name, tool_input, session_id, transcript_path, hook_event_name. Permite ao script de hook tomar decisões com base nos detalhes da operação que vai ocorrer (ou ocorreu).",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/hooks",
+    "docTitle": "Claude Code — Hooks"
+  },
+  {
+    "id": "adv-hook-004",
+    "level": "avancado",
+    "category": "hooks",
+    "statement": "O evento de hook 'Stop' é disparado toda vez que o usuário pressiona Esc para interromper o Claude.",
+    "answer": false,
+    "explanation": "O evento Stop é disparado quando o Claude termina sua resposta (sem interrupção). UserPromptSubmit é disparado no envio de prompt, e SessionStart/SessionEnd no início/fim da sessão. Esc gera interrupção mas não dispara Stop convencional.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/hooks",
+    "docTitle": "Claude Code — Hooks"
+  },
+  {
+    "id": "adv-hook-005",
+    "level": "avancado",
+    "category": "hooks",
+    "statement": "É possível usar hooks para forçar execução de linters/formatadores automaticamente após cada edição de arquivo.",
+    "answer": true,
+    "explanation": "Um hook PostToolUse filtrado para Edit/Write pode rodar prettier, eslint --fix ou similar logo após cada modificação. Padrão comum em projetos com convenção rígida de formatação. O resultado pode ser visto pelo Claude na próxima iteração.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/hooks",
+    "docTitle": "Claude Code — Hooks"
+  },
+  {
     "id": "adv-mcp-001",
     "level": "avancado",
     "category": "mcp",
     "statement": "O Model Context Protocol (MCP) suporta apenas o transporte stdio para conectar servidores ao Claude Code.",
     "answer": false,
     "explanation": "MCP suporta múltiplos transportes: stdio (processo local), HTTP/SSE (servidor remoto) e Streamable HTTP. A configuração em .mcp.json especifica o transporte adequado e os comandos/URLs necessários para cada servidor.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/mcp",
+    "docTitle": "Claude Code — Model Context Protocol"
+  },
+  {
+    "id": "adv-mcp-002",
+    "level": "avancado",
+    "category": "mcp",
+    "statement": "MCP servers podem expor três tipos de capacidades para o cliente: tools, resources e prompts.",
+    "answer": true,
+    "explanation": "MCP padroniza três primitivas: tools (funções executáveis), resources (dados/URIs que o modelo pode ler) e prompts (templates parametrizados). Um único MCP server pode expor qualquer combinação dessas três primitivas.",
+    "docUrl": "https://modelcontextprotocol.io",
+    "docTitle": "Model Context Protocol"
+  },
+  {
+    "id": "adv-mcp-003",
+    "level": "avancado",
+    "category": "mcp",
+    "statement": "MCP é um protocolo proprietário da Anthropic — não há SDK em outras linguagens além de TypeScript.",
+    "answer": false,
+    "explanation": "MCP é um protocolo aberto (modelcontextprotocol.io) com SDKs oficiais em TypeScript, Python, Go, Rust, Java e C#. Qualquer aplicação que implemente o protocolo pode ser cliente ou servidor MCP, independente da Anthropic.",
+    "docUrl": "https://modelcontextprotocol.io",
+    "docTitle": "Model Context Protocol"
+  },
+  {
+    "id": "adv-mcp-004",
+    "level": "avancado",
+    "category": "mcp",
+    "statement": "MCP servers configurados em .mcp.json no projeto são compartilhados com o time via Git.",
+    "answer": true,
+    "explanation": ".mcp.json é versionado por padrão e define MCP servers do projeto. Útil para garantir que toda a equipe tenha acesso aos mesmos servidores (Linear, Sentry, banco de dados etc) ao abrir o projeto no Claude Code.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/mcp",
+    "docTitle": "Claude Code — Model Context Protocol"
+  },
+  {
+    "id": "adv-mcp-005",
+    "level": "avancado",
+    "category": "mcp",
+    "statement": "O comando /mcp dentro do Claude Code lista os servidores MCP conectados e seu status.",
+    "answer": true,
+    "explanation": "/mcp exibe os MCP servers configurados, mostra status de conexão, autenticação pendente e tools/resources disponíveis. Também é usado para autenticar em servidores OAuth (Linear, Atlassian, etc).",
     "docUrl": "https://docs.claude.com/en/docs/claude-code/mcp",
     "docTitle": "Claude Code — Model Context Protocol"
   },
@@ -140,6 +510,46 @@
     "docTitle": "Claude Agent SDK — Overview"
   },
   {
+    "id": "adv-sdk-002",
+    "level": "avancado",
+    "category": "sdk",
+    "statement": "O Claude Agent SDK só está disponível em TypeScript/JavaScript — não há suporte oficial para Python.",
+    "answer": false,
+    "explanation": "O Claude Agent SDK tem SDKs oficiais em TypeScript e Python, ambos com APIs análogas: query/streaming, tool definitions, hooks, MCP. Outras linguagens podem usar a HTTP API diretamente.",
+    "docUrl": "https://docs.claude.com/en/api/agent-sdk/overview",
+    "docTitle": "Claude Agent SDK — Overview"
+  },
+  {
+    "id": "adv-sdk-003",
+    "level": "avancado",
+    "category": "sdk",
+    "statement": "Agentes construídos com o Agent SDK podem ser executados em modo headless (sem interação humana) para automação.",
+    "answer": true,
+    "explanation": "O SDK permite criar agents que rodam sem prompt interativo — recebem input via código, processam, e retornam resultado. Ideal para CI/CD, batch jobs, scripts agendados ou serviços que invocam agents como subrotinas.",
+    "docUrl": "https://docs.claude.com/en/api/agent-sdk/overview",
+    "docTitle": "Claude Agent SDK — Overview"
+  },
+  {
+    "id": "adv-sdk-004",
+    "level": "avancado",
+    "category": "sdk",
+    "statement": "Tool use no Agent SDK exige que o desenvolvedor implemente loops manuais de chamada/resposta de tools.",
+    "answer": false,
+    "explanation": "O Agent SDK gerencia o loop de tool use automaticamente: você declara as tools, o modelo decide chamá-las, o SDK executa o handler e devolve o resultado ao modelo, até a resposta final. Não é preciso escrever o loop manualmente.",
+    "docUrl": "https://docs.claude.com/en/api/agent-sdk/overview",
+    "docTitle": "Claude Agent SDK — Overview"
+  },
+  {
+    "id": "adv-sdk-005",
+    "level": "avancado",
+    "category": "sdk",
+    "statement": "Agents construídos com o SDK podem reutilizar MCP servers configurados, conectando-se aos mesmos serviços externos que o Claude Code.",
+    "answer": true,
+    "explanation": "O Agent SDK aceita a mesma configuração MCP do Claude Code, permitindo que agents programáticos acessem ferramentas externas (Linear, Slack, DBs, etc) sem re-implementar a integração. É a base para agents corporativos sobre fontes existentes.",
+    "docUrl": "https://docs.claude.com/en/api/agent-sdk/overview",
+    "docTitle": "Claude Agent SDK — Overview"
+  },
+  {
     "id": "adv-apic-001",
     "level": "avancado",
     "category": "api_caching",
@@ -148,5 +558,45 @@
     "explanation": "Prompt caching armazena trechos do prompt (system, tools, mensagens) marcados com cache_control. Cache hits custam ~10% do preço normal. TTL padrão é 5 minutos; há opção de cache estendido (1 hora) com custo de escrita maior.",
     "docUrl": "https://docs.claude.com/en/docs/build-with-claude/prompt-caching",
     "docTitle": "Prompt Caching"
+  },
+  {
+    "id": "adv-apic-002",
+    "level": "avancado",
+    "category": "api_caching",
+    "statement": "Cada chamada à API que aproveita o prompt cache tem o mesmo custo de uma chamada sem cache.",
+    "answer": false,
+    "explanation": "Cache hits custam aproximadamente 10% do preço de input tokens normal — economia significativa em prompts longos repetidos. Cache writes têm custo um pouco maior (~25%) que input normal, compensado já no primeiro hit.",
+    "docUrl": "https://docs.claude.com/en/docs/build-with-claude/prompt-caching",
+    "docTitle": "Prompt Caching"
+  },
+  {
+    "id": "adv-apic-003",
+    "level": "avancado",
+    "category": "api_caching",
+    "statement": "A Batch API da Anthropic permite enviar lotes de requisições assíncronas com 50% de desconto em comparação à API síncrona.",
+    "answer": true,
+    "explanation": "A Message Batches API aceita até 100k requisições por lote, processadas de forma assíncrona em até 24h, com 50% de desconto sobre o custo síncrono. Ideal para classificações em massa, geração de embeddings de catálogos, avaliações offline.",
+    "docUrl": "https://docs.claude.com/en/docs/build-with-claude/batch-processing",
+    "docTitle": "Message Batches"
+  },
+  {
+    "id": "adv-apic-004",
+    "level": "avancado",
+    "category": "api_caching",
+    "statement": "Extended thinking (ou raciocínio estendido) é uma feature exclusiva dos modelos Haiku, indisponível em Sonnet e Opus.",
+    "answer": false,
+    "explanation": "Extended thinking está disponível em modelos da família Sonnet e Opus (4.x em diante). Permite ao modelo gerar um bloco de raciocínio interno antes da resposta final, melhorando tarefas complexas. Haiku não suporta extended thinking.",
+    "docUrl": "https://docs.claude.com/en/docs/build-with-claude/extended-thinking",
+    "docTitle": "Extended Thinking"
+  },
+  {
+    "id": "adv-apic-005",
+    "level": "avancado",
+    "category": "api_caching",
+    "statement": "Citations na API da Anthropic permitem que o modelo referencie trechos exatos de documentos fornecidos como input.",
+    "answer": true,
+    "explanation": "A feature Citations devolve, junto com a resposta, referências precisas (offsets de caracteres ou índices de chunks) aos documentos fornecidos. Útil para RAG e Q&A, permitindo mostrar ao usuário a fonte exata de cada afirmação do modelo.",
+    "docUrl": "https://docs.claude.com/en/docs/build-with-claude/citations",
+    "docTitle": "Citations"
   }
 ]

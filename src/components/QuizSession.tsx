@@ -36,13 +36,18 @@ export function QuizSession({ level }: Props) {
   const [view, setView] = useState<View>('quiz');
   const [statsPersisted, setStatsPersisted] = useState(false);
   const [sharing, setSharing] = useState(false);
+  const [shareError, setShareError] = useState<string | null>(null);
   const shareCardRef = useRef<HTMLDivElement>(null);
 
   const handleShare = useCallback(async () => {
     if (!shareCardRef.current || sharing) return;
     setSharing(true);
+    setShareError(null);
     try {
-      await shareResult(shareCardRef.current);
+      const result = await shareResult(shareCardRef.current);
+      if (!result.ok && result.method !== 'share') {
+        setShareError('Não foi possível gerar a imagem. Tente novamente.');
+      }
     } finally {
       setSharing(false);
     }
@@ -90,11 +95,14 @@ export function QuizSession({ level }: Props) {
       const tag = (e.target as HTMLElement)?.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA') return;
 
+      if (e.ctrlKey || e.metaKey || e.altKey || e.shiftKey) return;
+
+      const key = e.key.toLowerCase();
       if (!isAnsweredCurrent) {
-        if (e.key === 'v' || e.key === 'V' || e.key === 'ArrowLeft') {
+        if (key === 'v' || e.key === 'ArrowLeft') {
           e.preventDefault();
           answer(true);
-        } else if (e.key === 'f' || e.key === 'F' || e.key === 'ArrowRight') {
+        } else if (key === 'f' || e.key === 'ArrowRight') {
           e.preventDefault();
           answer(false);
         }
@@ -128,6 +136,7 @@ export function QuizSession({ level }: Props) {
             onReview={() => setView('review')}
             onShare={handleShare}
             sharing={sharing}
+            shareError={shareError}
           />
           <ShareCard
             ref={shareCardRef}
@@ -178,7 +187,10 @@ export function QuizSession({ level }: Props) {
         </header>
 
         <div className="mb-6">
-          <ProgressBar current={state.currentIndex + (isAnsweredCurrent ? 1 : 0)} total={state.questions.length} />
+          <ProgressBar
+            current={isLastQuestion && isAnsweredCurrent ? state.questions.length - 1 : state.currentIndex + (isAnsweredCurrent ? 1 : 0)}
+            total={state.questions.length}
+          />
         </div>
 
         <QuestionCard

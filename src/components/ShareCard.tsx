@@ -9,6 +9,13 @@ interface Props {
   maxStreak: number;
 }
 
+// Use system font stacks here: html-to-image does not download web fonts by
+// default, so referencing Inter/JetBrains Mono would silently fall back at
+// PNG generation time. System fonts render identically in dev and in the
+// exported image.
+const SANS = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif';
+const MONO = 'ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace';
+
 export const ShareCard = forwardRef<HTMLDivElement, Props>(function ShareCard(
   { level, correct, total, maxStreak },
   ref,
@@ -24,7 +31,7 @@ export const ShareCard = forwardRef<HTMLDivElement, Props>(function ShareCard(
         top: -99999,
         background: '#0f0f0f',
         color: '#ededed',
-        fontFamily: 'Inter, system-ui, sans-serif',
+        fontFamily: SANS,
         padding: 80,
         display: 'flex',
         flexDirection: 'column',
@@ -36,7 +43,7 @@ export const ShareCard = forwardRef<HTMLDivElement, Props>(function ShareCard(
         <p
           style={{
             color: '#9ca3af',
-            fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+            fontFamily: MONO,
             fontSize: 24,
             letterSpacing: 4,
             textTransform: 'uppercase',
@@ -61,7 +68,7 @@ export const ShareCard = forwardRef<HTMLDivElement, Props>(function ShareCard(
           <p
             style={{
               color: '#9ca3af',
-              fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+              fontFamily: MONO,
               fontSize: 20,
             }}
           >

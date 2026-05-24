@@ -15,6 +15,7 @@ interface Props {
   onReview: () => void;
   onShare: () => void;
   sharing?: boolean;
+  shareError?: string | null;
 }
 
 export function ResultScreen({
@@ -26,6 +27,7 @@ export function ResultScreen({
   onReview,
   onShare,
   sharing = false,
+  shareError = null,
 }: Props) {
   const correct = computeCorrectCount(answered);
   const total = answered.length;
@@ -76,6 +78,15 @@ export function ResultScreen({
           {sharing ? 'Gerando…' : 'Compartilhar'}
         </button>
       </div>
+
+      {shareError && (
+        <p
+          role="alert"
+          className="mt-4 text-sm text-error"
+        >
+          {shareError}
+        </p>
+      )}
 
       <div className="mt-8">
         <Link

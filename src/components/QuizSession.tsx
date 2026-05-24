@@ -2,16 +2,19 @@
 
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FeedbackPanel } from '@/components/FeedbackPanel';
 import { ProgressBar } from '@/components/ProgressBar';
 import { QuestionCard } from '@/components/QuestionCard';
 import { ResultScreen } from '@/components/ResultScreen';
 import { ReviewMode } from '@/components/ReviewMode';
+import { ShareCard } from '@/components/ShareCard';
 import { StreakBadge } from '@/components/StreakBadge';
 import { useQuiz } from '@/hooks/useQuiz';
 import { pickRandomQuestions } from '@/lib/questions';
 import { LEVEL_LABEL } from '@/lib/labels';
+import { computeCorrectCount } from '@/lib/score';
+import { shareResult } from '@/lib/share';
 import {
   incrementSessionCount,
   updateBestScore,
@@ -32,6 +35,18 @@ export function QuizSession({ level }: Props) {
     useQuiz();
   const [view, setView] = useState<View>('quiz');
   const [statsPersisted, setStatsPersisted] = useState(false);
+  const [sharing, setSharing] = useState(false);
+  const shareCardRef = useRef<HTMLDivElement>(null);
+
+  const handleShare = useCallback(async () => {
+    if (!shareCardRef.current || sharing) return;
+    setSharing(true);
+    try {
+      await shareResult(shareCardRef.current);
+    } finally {
+      setSharing(false);
+    }
+  }, [sharing]);
 
   // Bootstrap the session on mount
   useEffect(() => {
@@ -111,10 +126,15 @@ export function QuizSession({ level }: Props) {
             maxStreak={state.maxStreak}
             onPlayAgain={restart}
             onReview={() => setView('review')}
-            onShare={() => {
-              // placeholder, to be wired in Phase 5
-              alert('Compartilhamento será habilitado em breve.');
-            }}
+            onShare={handleShare}
+            sharing={sharing}
+          />
+          <ShareCard
+            ref={shareCardRef}
+            level={state.level}
+            correct={computeCorrectCount(state.answered)}
+            total={state.answered.length}
+            maxStreak={state.maxStreak}
           />
         </div>
       </main>

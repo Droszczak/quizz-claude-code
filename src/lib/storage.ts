@@ -1,13 +1,17 @@
-import type { Level, PersistedStats } from '@/types/quiz';
+import { LEVELS, type Level, type PersistedStats } from '@/types/quiz';
 
 const STORAGE_KEY = 'quizz-claude-code:stats:v1';
 
-const DEFAULT_STATS: PersistedStats = {
-  bestScore: { iniciante: 0, intermediario: 0, avancado: 0 },
-  bestStreak: 0,
-  sessionCount: 0,
-  lastPlayedAt: null,
-};
+function makeDefaultStats(): PersistedStats {
+  const bestScore = {} as Record<Level, number>;
+  for (const level of LEVELS) bestScore[level] = 0;
+  return {
+    bestScore,
+    bestStreak: 0,
+    sessionCount: 0,
+    lastPlayedAt: null,
+  };
+}
 
 const memoryStore = new Map<string, string>();
 
@@ -18,25 +22,39 @@ function isBrowser(): boolean {
 function safeGetItem(key: string): string | null {
   if (isBrowser()) {
     try {
-      return window.localStorage.getItem(key);
+      const v = window.localStorage.getItem(key);
+      if (v !== null) return v;
     } catch {
-      return memoryStore.get(key) ?? null;
+      /* fall through to memoryStore */
     }
   }
   return memoryStore.get(key) ?? null;
 }
 
 function safeSetItem(key: string, value: string): void {
+  // Write-through: keep memoryStore consistent so that a later read that
+  // falls back to memoryStore still finds the latest value if localStorage
+  // becomes intermittently unavailable.
+  memoryStore.set(key, value);
   if (isBrowser()) {
     try {
       window.localStorage.setItem(key, value);
-      return;
     } catch {
-      memoryStore.set(key, value);
-      return;
+      /* memoryStore already has the value */
     }
   }
-  memoryStore.set(key, value);
+}
+
+function safeRemoveItem(key: string): void {
+  // Clear both layers so a fallback read does not surface stale data.
+  memoryStore.delete(key);
+  if (isBrowser()) {
+    try {
+      window.localStorage.removeItem(key);
+    } catch {
+      /* nothing more to do */
+    }
+  }
 }
 
 function isValidStats(value: unknown): value is PersistedStats {
@@ -46,23 +64,31 @@ function isValidStats(value: unknown): value is PersistedStats {
   if (typeof v.sessionCount !== 'number') return false;
   if (v.lastPlayedAt !== null && typeof v.lastPlayedAt !== 'number') return false;
   if (!v.bestScore || typeof v.bestScore !== 'object') return false;
-  return (
-    typeof v.bestScore.iniciante === 'number' &&
-    typeof v.bestScore.intermediario === 'number' &&
-    typeof v.bestScore.avancado === 'number'
-  );
+  for (const level of LEVELS) {
+    if (typeof (v.bestScore as Record<string, unknown>)[level] !== 'number') return false;
+  }
+  return true;
+}
+
+function cloneStats(stats: PersistedStats): PersistedStats {
+  return {
+    bestScore: { ...stats.bestScore },
+    bestStreak: stats.bestStreak,
+    sessionCount: stats.sessionCount,
+    lastPlayedAt: stats.lastPlayedAt,
+  };
 }
 
 export function getStats(): PersistedStats {
   const raw = safeGetItem(STORAGE_KEY);
-  if (!raw) return { ...DEFAULT_STATS, bestScore: { ...DEFAULT_STATS.bestScore } };
+  if (!raw) return makeDefaultStats();
   try {
     const parsed = JSON.parse(raw);
-    if (isValidStats(parsed)) return parsed;
+    if (isValidStats(parsed)) return cloneStats(parsed);
   } catch {
     /* corrupted entry — fall through to default */
   }
-  return { ...DEFAULT_STATS, bestScore: { ...DEFAULT_STATS.bestScore } };
+  return makeDefaultStats();
 }
 
 function writeStats(stats: PersistedStats): void {
@@ -70,6 +96,10 @@ function writeStats(stats: PersistedStats): void {
 }
 
 export function updateBestScore(level: Level, score: number): PersistedStats {
+  // Note: read-modify-write is racy across tabs. We re-read every time so
+  // that within a single tab repeated updates compose correctly; a cross-tab
+  // concurrent write may still clobber. UI components should subscribe to
+  // the `storage` event to stay in sync.
   const stats = getStats();
   if (score > stats.bestScore[level]) {
     stats.bestScore[level] = score;
@@ -96,14 +126,7 @@ export function incrementSessionCount(now: number = Date.now()): PersistedStats 
 }
 
 export function resetStats(): void {
-  if (isBrowser()) {
-    try {
-      window.localStorage.removeItem(STORAGE_KEY);
-      return;
-    } catch {
-      memoryStore.delete(STORAGE_KEY);
-      return;
-    }
-  }
-  memoryStore.delete(STORAGE_KEY);
+  safeRemoveItem(STORAGE_KEY);
 }
+
+export const STATS_STORAGE_KEY = STORAGE_KEY;

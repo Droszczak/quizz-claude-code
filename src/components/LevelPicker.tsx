@@ -5,13 +5,20 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { LEVELS, type Level, type PersistedStats } from '@/types/quiz';
 import { LEVEL_DESCRIPTION, LEVEL_LABEL } from '@/lib/labels';
-import { getStats } from '@/lib/storage';
+import { STATS_STORAGE_KEY, getStats } from '@/lib/storage';
 
 export function LevelPicker() {
   const [stats, setStats] = useState<PersistedStats | null>(null);
 
   useEffect(() => {
     setStats(getStats());
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === STATS_STORAGE_KEY || e.key === null) {
+        setStats(getStats());
+      }
+    };
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
   }, []);
 
   return (

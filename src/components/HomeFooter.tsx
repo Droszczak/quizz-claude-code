@@ -2,13 +2,20 @@
 
 import { useEffect, useState } from 'react';
 import type { PersistedStats } from '@/types/quiz';
-import { getStats } from '@/lib/storage';
+import { STATS_STORAGE_KEY, getStats } from '@/lib/storage';
 
 export function HomeFooter() {
   const [stats, setStats] = useState<PersistedStats | null>(null);
 
   useEffect(() => {
     setStats(getStats());
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === STATS_STORAGE_KEY || e.key === null) {
+        setStats(getStats());
+      }
+    };
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
   }, []);
 
   if (!stats || (stats.sessionCount === 0 && stats.bestStreak === 0)) {

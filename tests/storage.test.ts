@@ -89,7 +89,7 @@ describe('resetStats', () => {
 });
 
 describe('fallback when localStorage throws', () => {
-  it('writes to in-memory store when setItem throws', () => {
+  it('writes and reads from in-memory store when both setItem and getItem throw', () => {
     const setSpy = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
       throw new Error('quota exceeded');
     });
@@ -97,9 +97,22 @@ describe('fallback when localStorage throws', () => {
       throw new Error('blocked');
     });
     expect(() => updateBestScore('iniciante', 50)).not.toThrow();
-    // Even with throwing storage, code should not crash
-    expect(() => getStats()).not.toThrow();
+    // Critical: data written during failure must be readable via fallback
+    expect(getStats().bestScore.iniciante).toBe(50);
     setSpy.mockRestore();
+    getSpy.mockRestore();
+  });
+
+  it('keeps memoryStore in sync after a successful localStorage write (write-through)', () => {
+    // First write succeeds normally and updates both layers.
+    updateBestScore('avancado', 80);
+
+    // Then localStorage becomes unreadable mid-session.
+    const getSpy = vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+      throw new Error('blocked');
+    });
+    // Fallback should still surface the previously-written value, not null.
+    expect(getStats().bestScore.avancado).toBe(80);
     getSpy.mockRestore();
   });
 });

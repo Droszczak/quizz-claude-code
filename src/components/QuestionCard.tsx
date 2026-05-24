@@ -1,5 +1,6 @@
 'use client';
 
+import { motion, useReducedMotion } from 'framer-motion';
 import type { Question } from '@/types/quiz';
 import { cn } from '@/lib/cn';
 
@@ -25,8 +26,14 @@ export function QuestionCard({
     onAnswer(value);
   };
 
+  const reduceMotion = useReducedMotion();
+
   return (
-    <article
+    <motion.article
+      key={question.id}
+      initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.2, ease: 'easeOut' }}
       className="bg-bg-elevated border border-border rounded-2xl p-6 md:p-8"
       aria-labelledby={`q-${question.id}`}
     >
@@ -84,6 +91,6 @@ export function QuestionCard({
           Falso <kbd className="ml-1 text-xs opacity-60 font-mono">(F)</kbd>
         </button>
       </div>
-    </article>
+    </motion.article>
   );
 }

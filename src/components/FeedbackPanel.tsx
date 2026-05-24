@@ -1,5 +1,6 @@
 'use client';
 
+import { motion, useReducedMotion } from 'framer-motion';
 import { Check, ExternalLink, X } from 'lucide-react';
 import type { Question } from '@/types/quiz';
 import { cn } from '@/lib/cn';
@@ -12,10 +13,14 @@ interface Props {
 }
 
 export function FeedbackPanel({ question, correct, isLast, onNext }: Props) {
+  const reduceMotion = useReducedMotion();
   return (
-    <div
+    <motion.div
       role="status"
       aria-live="polite"
+      initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.2, ease: 'easeOut' }}
       className={cn(
         'mt-4 rounded-2xl border p-5 md:p-6 bg-bg-elevated',
         correct ? 'border-success/40' : 'border-error/40',
@@ -56,6 +61,6 @@ export function FeedbackPanel({ question, correct, isLast, onNext }: Props) {
           {isLast ? 'Ver resultado' : 'Próxima'}
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 }

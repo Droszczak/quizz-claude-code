@@ -38,6 +38,7 @@ export function QuizSession({ level }: Props) {
   const [sharing, setSharing] = useState(false);
   const [shareError, setShareError] = useState<string | null>(null);
   const shareCardRef = useRef<HTMLDivElement>(null);
+  const bootstrappedLevel = useRef<Level | null>(null);
 
   const handleShare = useCallback(async () => {
     if (!shareCardRef.current || sharing) return;
@@ -53,14 +54,18 @@ export function QuizSession({ level }: Props) {
     }
   }, [sharing]);
 
-  // Bootstrap the session on mount
+  // Bootstrap the session on mount. The bootstrappedLevel ref guards against
+  // React Strict Mode running the effect twice (which would re-pick questions
+  // and silently swap the deck on mount). The session is re-bootstrapped only
+  // when the `level` prop actually changes.
   useEffect(() => {
+    if (bootstrappedLevel.current === level) return;
+    bootstrappedLevel.current = level;
     const questions = pickRandomQuestions(level, SESSION_SIZE);
     start(level, questions);
     setView('quiz');
     setStatsPersisted(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [level]);
+  }, [level, start]);
 
   const restart = useCallback(() => {
     const questions = pickRandomQuestions(level, SESSION_SIZE);
@@ -78,12 +83,14 @@ export function QuizSession({ level }: Props) {
     }
   }, [isLastQuestion, finish, next]);
 
-  // Persist stats once when finished
+  // Persist stats once when finished. We pass state.finishedAt as the
+  // session timestamp so that lastPlayedAt matches the actual finish time
+  // and not whenever this effect happens to flush.
   useEffect(() => {
     if (state.finishedAt && !statsPersisted) {
       updateBestScore(state.level, state.score);
       updateBestStreak(state.maxStreak);
-      incrementSessionCount();
+      incrementSessionCount(state.finishedAt);
       setStatsPersisted(true);
     }
   }, [state.finishedAt, state.level, state.score, state.maxStreak, statsPersisted]);

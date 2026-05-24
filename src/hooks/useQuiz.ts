@@ -1,6 +1,6 @@
 'use client';
 
-import { useReducer } from 'react';
+import { useCallback, useReducer } from 'react';
 import type { AnsweredQuestion, Level, Question, SessionState } from '@/types/quiz';
 
 type Action =
@@ -10,17 +10,19 @@ type Action =
   | { type: 'FINISH'; now: number }
   | { type: 'RESET' };
 
-const EMPTY_STATE: SessionState = {
-  level: 'iniciante',
-  questions: [],
-  currentIndex: 0,
-  answered: [],
-  score: 0,
-  streak: 0,
-  maxStreak: 0,
-  startedAt: 0,
-  finishedAt: null,
-};
+function makeEmptyState(): SessionState {
+  return {
+    level: 'iniciante',
+    questions: [],
+    currentIndex: 0,
+    answered: [],
+    score: 0,
+    streak: 0,
+    maxStreak: 0,
+    startedAt: 0,
+    finishedAt: null,
+  };
+}
 
 export function quizReducer(state: SessionState, action: Action): SessionState {
   switch (action.type) {
@@ -68,7 +70,9 @@ export function quizReducer(state: SessionState, action: Action): SessionState {
       return { ...state, finishedAt: action.now };
 
     case 'RESET':
-      return EMPTY_STATE;
+      // Factory call ensures every reset returns a fresh object so that no
+      // future mutation (or React internal) can corrupt shared state.
+      return makeEmptyState();
 
     default:
       return state;
@@ -76,19 +80,27 @@ export function quizReducer(state: SessionState, action: Action): SessionState {
 }
 
 export function useQuiz() {
-  const [state, dispatch] = useReducer(quizReducer, EMPTY_STATE);
+  const [state, dispatch] = useReducer(quizReducer, undefined, makeEmptyState);
 
-  const start = (level: Level, questions: Question[]) =>
-    dispatch({ type: 'START', level, questions, now: Date.now() });
+  // dispatch is referentially stable across renders, so these callbacks are
+  // stable too — consumers can safely include them in effect dependency
+  // arrays without triggering unnecessary teardown/re-setup.
+  const start = useCallback(
+    (level: Level, questions: Question[]) =>
+      dispatch({ type: 'START', level, questions, now: Date.now() }),
+    [],
+  );
 
-  const answer = (userAnswer: boolean) =>
-    dispatch({ type: 'ANSWER', userAnswer, now: Date.now() });
+  const answer = useCallback(
+    (userAnswer: boolean) => dispatch({ type: 'ANSWER', userAnswer, now: Date.now() }),
+    [],
+  );
 
-  const next = () => dispatch({ type: 'NEXT' });
+  const next = useCallback(() => dispatch({ type: 'NEXT' }), []);
 
-  const finish = () => dispatch({ type: 'FINISH', now: Date.now() });
+  const finish = useCallback(() => dispatch({ type: 'FINISH', now: Date.now() }), []);
 
-  const reset = () => dispatch({ type: 'RESET' });
+  const reset = useCallback(() => dispatch({ type: 'RESET' }), []);
 
   const currentQuestion = state.questions[state.currentIndex];
   const isAnsweredCurrent = state.answered.length > state.currentIndex;

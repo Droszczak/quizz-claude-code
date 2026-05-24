@@ -15,6 +15,11 @@ export function pickRandomQuestions(
   rng: () => number = Math.random,
 ): Question[] {
   const pool = getQuestionsByLevel(level);
+  if (pool.length < n) {
+    console.warn(
+      `pickRandomQuestions: level "${level}" has only ${pool.length} question(s) but ${n} were requested. Session will be shorter.`,
+    );
+  }
   const shuffled = [...pool];
 
   for (let i = shuffled.length - 1; i > 0; i--) {

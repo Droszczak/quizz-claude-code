@@ -73,6 +73,15 @@ describe('getQuestionsByLevel', () => {
       }
     }
   });
+
+  it('every level has at least 10 questions (enough for a full session)', () => {
+    for (const level of LEVELS) {
+      const subset = getQuestionsByLevel(level);
+      expect(subset.length, `level "${level}" must have ≥ 10 questions`).toBeGreaterThanOrEqual(
+        10,
+      );
+    }
+  });
 });
 
 describe('pickRandomQuestions', () => {

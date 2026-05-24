@@ -1,0 +1,152 @@
+[
+  {
+    "id": "ini-fund-001",
+    "level": "iniciante",
+    "category": "fundamentos",
+    "statement": "Claude Code é uma ferramenta de linha de comando (CLI) oficial da Anthropic para auxiliar em tarefas de engenharia de software.",
+    "answer": true,
+    "explanation": "Claude Code é a CLI oficial da Anthropic para tarefas de engenharia, também disponível como app desktop (Mac/Windows), web app (claude.ai/code) e extensões para VS Code e JetBrains.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/overview",
+    "docTitle": "Claude Code — Overview"
+  },
+  {
+    "id": "ini-fund-002",
+    "level": "iniciante",
+    "category": "fundamentos",
+    "statement": "Claude Code utiliza modelos da família GPT da OpenAI por padrão.",
+    "answer": false,
+    "explanation": "Claude Code usa modelos da família Claude (Opus, Sonnet, Haiku), desenvolvidos pela Anthropic. Não há integração com modelos de outros provedores; o modelo pode ser alternado com o comando /model.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/overview",
+    "docTitle": "Claude Code — Overview"
+  },
+  {
+    "id": "ini-uso-001",
+    "level": "iniciante",
+    "category": "uso_basico",
+    "statement": "A forma mais comum de instalar o Claude Code é via npm com 'npm install -g @anthropic-ai/claude-code'.",
+    "answer": true,
+    "explanation": "A instalação padrão é via npm globalmente. Também há instaladores nativos para macOS (Homebrew) e Windows. Após instalado, basta executar 'claude' no terminal dentro do diretório do projeto.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/setup",
+    "docTitle": "Claude Code — Setup"
+  },
+  {
+    "id": "ini-slsh-001",
+    "level": "iniciante",
+    "category": "slash_basico",
+    "statement": "O comando /clear no Claude Code apaga o histórico da conversa atual e libera o contexto.",
+    "answer": true,
+    "explanation": "/clear reseta o contexto da sessão atual, útil para começar uma nova tarefa sem que conversas anteriores influenciem as respostas. O comando /help lista todos os slash commands disponíveis.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/slash-commands",
+    "docTitle": "Claude Code — Slash Commands"
+  },
+  {
+    "id": "ini-intf-001",
+    "level": "iniciante",
+    "category": "interface",
+    "statement": "O modo Plan no Claude Code aplica alterações em arquivos sem pedir confirmação ao usuário.",
+    "answer": false,
+    "explanation": "O modo Plan faz o oposto: o agente apresenta um plano de execução para aprovação do usuário antes de qualquer mudança. O modo que aceita alterações automaticamente é o auto-accept (Shift+Tab alterna entre os modos).",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/overview",
+    "docTitle": "Claude Code — Overview"
+  },
+  {
+    "id": "int-conf-001",
+    "level": "intermediario",
+    "category": "configuracao",
+    "statement": "Configurações em .claude/settings.local.json são versionadas no Git por padrão.",
+    "answer": false,
+    "explanation": "settings.local.json é ignorado pelo Git por padrão — serve para preferências locais do desenvolvedor (env vars sensíveis, permissões específicas). Para configurações compartilhadas com o time, use .claude/settings.json (versionado).",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/settings",
+    "docTitle": "Claude Code — Settings"
+  },
+  {
+    "id": "int-conf-002",
+    "level": "intermediario",
+    "category": "configuracao",
+    "statement": "A variável ANTHROPIC_API_KEY é uma das formas de autenticar o Claude Code quando se usa a API direta da Anthropic.",
+    "answer": true,
+    "explanation": "ANTHROPIC_API_KEY autentica o Claude Code via API. Alternativamente, é possível autenticar via login interativo com conta Claude.ai (Pro/Max) sem gerenciar a chave manualmente, ou usar Amazon Bedrock e Google Vertex AI.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/settings",
+    "docTitle": "Claude Code — Settings"
+  },
+  {
+    "id": "int-skil-001",
+    "level": "intermediario",
+    "category": "skills",
+    "statement": "Skills customizadas são definidas em arquivos SKILL.md dentro do diretório .claude/skills/<nome>/.",
+    "answer": true,
+    "explanation": "Cada skill vive em .claude/skills/<nome>/SKILL.md com frontmatter YAML contendo name, description e gatilhos. O Claude lê a descrição automaticamente e ativa a skill quando o contexto da conversa for relevante.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/skills",
+    "docTitle": "Claude Code — Skills"
+  },
+  {
+    "id": "int-slch-001",
+    "level": "intermediario",
+    "category": "slash_custom",
+    "statement": "Slash commands customizados são criados como arquivos Markdown em .claude/commands/, e o nome do arquivo vira o nome do comando.",
+    "answer": true,
+    "explanation": "Um arquivo .claude/commands/deploy.md cria o comando /deploy. O conteúdo do Markdown é o prompt enviado ao Claude. Argumentos podem ser passados via $ARGUMENTS no template, e subdiretórios criam namespacing.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/slash-commands",
+    "docTitle": "Claude Code — Slash Commands"
+  },
+  {
+    "id": "int-sbgt-001",
+    "level": "intermediario",
+    "category": "subagents",
+    "statement": "O subagente 'Explore' é a melhor escolha para revisão completa de código ou auditoria cross-file de design docs.",
+    "answer": false,
+    "explanation": "Explore é otimizado para buscas rápidas (find, grep, localizar definições) e lê apenas trechos. Para revisão de código ou auditoria cross-file, use code-reviewer ou general-purpose, que leem arquivos inteiros e fazem análise mais profunda.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/sub-agents",
+    "docTitle": "Claude Code — Sub-agents"
+  },
+  {
+    "id": "adv-hook-001",
+    "level": "avancado",
+    "category": "hooks",
+    "statement": "Um hook PreToolUse pode bloquear a execução de uma tool retornando exit code 2.",
+    "answer": true,
+    "explanation": "PreToolUse com exit code 2 bloqueia a tool e envia o stderr de volta ao Claude como feedback. Exit code 0 permite seguir, e exit code 1 sinaliza erro não-bloqueante. Hooks recebem payload JSON via stdin.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/hooks",
+    "docTitle": "Claude Code — Hooks"
+  },
+  {
+    "id": "adv-hook-002",
+    "level": "avancado",
+    "category": "hooks",
+    "statement": "Hooks no Claude Code são configurados exclusivamente no arquivo .mcp.json do projeto.",
+    "answer": false,
+    "explanation": "Hooks vivem em settings.json (user ou project scope), na chave 'hooks'. O .mcp.json é exclusivo para configuração de MCP servers, não hooks. Cada hook especifica um evento (PreToolUse, PostToolUse, Stop, etc.) e o comando a executar.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/hooks",
+    "docTitle": "Claude Code — Hooks"
+  },
+  {
+    "id": "adv-mcp-001",
+    "level": "avancado",
+    "category": "mcp",
+    "statement": "O Model Context Protocol (MCP) suporta apenas o transporte stdio para conectar servidores ao Claude Code.",
+    "answer": false,
+    "explanation": "MCP suporta múltiplos transportes: stdio (processo local), HTTP/SSE (servidor remoto) e Streamable HTTP. A configuração em .mcp.json especifica o transporte adequado e os comandos/URLs necessários para cada servidor.",
+    "docUrl": "https://docs.claude.com/en/docs/claude-code/mcp",
+    "docTitle": "Claude Code — Model Context Protocol"
+  },
+  {
+    "id": "adv-sdk-001",
+    "level": "avancado",
+    "category": "sdk",
+    "statement": "O Claude Agent SDK permite construir agentes programáticos com as mesmas primitivas do Claude Code (tool use, hooks, MCP).",
+    "answer": true,
+    "explanation": "O Claude Agent SDK expõe via biblioteca as mesmas capabilities da CLI: tool use, sessões, hooks, MCP, skills. Útil para integrar agentes em pipelines, scripts ou aplicações customizadas sem depender do terminal interativo.",
+    "docUrl": "https://docs.claude.com/en/api/agent-sdk/overview",
+    "docTitle": "Claude Agent SDK — Overview"
+  },
+  {
+    "id": "adv-apic-001",
+    "level": "avancado",
+    "category": "api_caching",
+    "statement": "O prompt caching da API da Anthropic reduz custo e latência em prompts repetidos, com TTL padrão de 5 minutos.",
+    "answer": true,
+    "explanation": "Prompt caching armazena trechos do prompt (system, tools, mensagens) marcados com cache_control. Cache hits custam ~10% do preço normal. TTL padrão é 5 minutos; há opção de cache estendido (1 hora) com custo de escrita maior.",
+    "docUrl": "https://docs.claude.com/en/docs/build-with-claude/prompt-caching",
+    "docTitle": "Prompt Caching"
+  }
+]
